@@ -1,0 +1,188 @@
+/*
+ * LoomLogic public brand layer.
+ *
+ * Scope: the unauthenticated marketing surface only.
+ *
+ * These tokens are additive and do not redefine the Phase 0/1 application
+ * system in globals.css.
+ */
+
+:root {
+  /*
+   * Local system stacks keep builds deterministic. A future custom face must
+   * be committed as a licensed local asset, not fetched during the build.
+   */
+  --font-brand-sans:
+    "Avenir Next", Avenir, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-brand-display:
+    "Avenir Next", Avenir, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  /* Canvas and surfaces: warm off-white, never pure black text on pure white. */
+  --brand-canvas: oklch(0.984 0.003 85);
+  --brand-canvas-sunken: oklch(0.966 0.005 85);
+  --brand-canvas-deep: oklch(0.936 0.006 85);
+  --brand-surface: oklch(1 0 0);
+  --brand-surface-raised: oklch(0.995 0.002 85);
+
+  /* Ink: dark charcoal with a trace of cool, not #000. */
+  --brand-ink: oklch(0.225 0.014 265);
+  --brand-ink-secondary: oklch(0.475 0.013 265);
+  --brand-ink-tertiary: oklch(0.605 0.011 265);
+
+  --brand-line: oklch(0.906 0.005 85);
+  --brand-line-strong: oklch(0.845 0.008 85);
+
+  /* One accent: deep indigo. Distinct from the application violet. */
+  --brand-accent: oklch(0.435 0.137 264);
+  --brand-accent-hover: oklch(0.372 0.129 264);
+  --brand-accent-soft: oklch(0.958 0.019 264);
+  --brand-accent-line: oklch(0.885 0.038 264);
+
+  /* Recovered value: restrained deep green, never a full green card. */
+  --brand-success: oklch(0.435 0.108 155);
+  --brand-success-soft: oklch(0.962 0.024 155);
+  --brand-success-line: oklch(0.888 0.048 155);
+
+  --brand-attention: oklch(0.545 0.128 62);
+  --brand-attention-soft: oklch(0.968 0.032 75);
+  --brand-danger: oklch(0.505 0.176 28);
+  --brand-danger-soft: oklch(0.966 0.021 28);
+
+  /* Radius: restrained, three steps plus fully rounded controls. */
+  --brand-radius-control: 0.5rem;
+  --brand-radius-button: 9999px;
+  --brand-radius-surface: 0.875rem;
+  --brand-radius-panel: 1.25rem;
+
+  /* Display tracking: -35/1000 em, applied to every title and heading. */
+  --brand-display-tracking: -0.035em;
+
+  /* Depth: borders and surface contrast first, shadow only when floating. */
+  --brand-shadow-raised: 0 1px 2px oklch(0.225 0.014 265 / 0.04);
+  --brand-shadow-panel:
+    0 1px 2px oklch(0.225 0.014 265 / 0.04),
+    0 12px 32px -12px oklch(0.225 0.014 265 / 0.14);
+  --brand-shadow-floating:
+    0 2px 4px oklch(0.225 0.014 265 / 0.05),
+    0 20px 48px -16px oklch(0.225 0.014 265 / 0.2);
+
+  /* Motion tokens, per prompts/03 section 11. */
+  --brand-duration-instant: 100ms;
+  --brand-duration-hover: 140ms;
+  --brand-duration-component: 200ms;
+  --brand-duration-panel: 260ms;
+  --brand-duration-reveal: 320ms;
+  --brand-duration-success: 420ms;
+  --brand-duration-step: 480ms;
+
+  --brand-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --brand-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --brand-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --brand-ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --color-brand-canvas: var(--brand-canvas);
+  --color-brand-canvas-sunken: var(--brand-canvas-sunken);
+  --color-brand-canvas-deep: var(--brand-canvas-deep);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-surface-raised: var(--brand-surface-raised);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-ink-secondary: var(--brand-ink-secondary);
+  --color-brand-ink-tertiary: var(--brand-ink-tertiary);
+  --color-brand-line: var(--brand-line);
+  --color-brand-line-strong: var(--brand-line-strong);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-accent-hover: var(--brand-accent-hover);
+  --color-brand-accent-soft: var(--brand-accent-soft);
+  --color-brand-accent-line: var(--brand-accent-line);
+  --color-brand-success: var(--brand-success);
+  --color-brand-success-soft: var(--brand-success-soft);
+  --color-brand-success-line: var(--brand-success-line);
+  --color-brand-attention: var(--brand-attention);
+  --color-brand-attention-soft: var(--brand-attention-soft);
+  --color-brand-danger: var(--brand-danger);
+  --color-brand-danger-soft: var(--brand-danger-soft);
+
+  --radius-brand-control: var(--brand-radius-control);
+  --radius-brand-button: var(--brand-radius-button);
+  --radius-brand-surface: var(--brand-radius-surface);
+  --radius-brand-panel: var(--brand-radius-panel);
+
+  --font-brand:
+    var(--font-brand-sans), ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  --font-brand-title: var(--font-brand-display), var(--font-brand-sans), sans-serif;
+
+  --shadow-brand-raised: var(--brand-shadow-raised);
+  --shadow-brand-panel: var(--brand-shadow-panel);
+  --shadow-brand-floating: var(--brand-shadow-floating);
+}
+
+.brand-scope {
+  background: var(--brand-canvas);
+  color: var(--brand-ink);
+  font-family: var(--font-brand-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.brand-scope :is(h1, h2, h3, h4, h5, h6),
+.brand-scope .brand-title {
+  font-family: var(--font-brand-display);
+  font-weight: 700;
+  letter-spacing: var(--brand-display-tracking);
+}
+
+.brand-scope :focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.brand-scope ::selection {
+  background: color-mix(in oklch, var(--brand-accent) 20%, white);
+  color: var(--brand-ink);
+}
+
+/* Tabular numerals wherever an operational value is shown. */
+.brand-numeric {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Reveal elements always remain complete when JavaScript or observation fails. */
+.brand-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+ * Hero sequence step primitive. Transform and opacity only.
+ *
+ * Visible by default so the completed scene is the server-rendered, no-JS, and
+ * reduced-motion state. The client only opts steps out of view to replay them.
+ */
+.brand-step {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--brand-duration-step) var(--brand-ease-enter),
+    transform var(--brand-duration-step) var(--brand-ease-enter);
+}
+
+.brand-step[data-visible="false"] {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-reveal,
+  .brand-step,
+  .brand-step[data-visible="false"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

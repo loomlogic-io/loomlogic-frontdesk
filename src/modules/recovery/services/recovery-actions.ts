@@ -1,7 +1,10 @@
 import "server-only";
 
 import { createAttribution } from "@/modules/recovery/domain/attribution";
-import { deterministicUuid } from "@/modules/recovery/domain/idempotency";
+import {
+  deterministicUuid,
+  draftFollowUpIdempotencyKey,
+} from "@/modules/recovery/domain/idempotency";
 import {
   transitionRecoveryCase,
   type RecoveryCaseStatus,
@@ -86,12 +89,15 @@ export class RecoveryActionService {
     recoveryCaseId: string;
     recipient: string;
     body: string;
-    idempotencyKey: string;
     requestId: string;
   }) {
+    // Derived here, not accepted from the request: the browser must not be able
+    // to choose the identity of an approval record, and the key must stay stable
+    // across renders and retries for the short-circuit below to deduplicate.
+    const idempotencyKey = draftFollowUpIdempotencyKey(input.recoveryCaseId);
     const existingApproval = await this.repository.getApprovalByIdempotency(
       input.actor.organizationId,
-      input.idempotencyKey,
+      idempotencyKey,
     );
     if (existingApproval) {
       return existingApproval;
@@ -130,7 +136,7 @@ export class RecoveryActionService {
         ? sourceCall.metadata
         : {};
     const now = this.clock();
-    const messageId = deterministicUuid("message", input.idempotencyKey);
+    const messageId = deterministicUuid("message", idempotencyKey);
     const message = await this.repository.createMessage({
       id: messageId,
       organization_id: input.actor.organizationId,
@@ -138,7 +144,7 @@ export class RecoveryActionService {
       contact_id: recoveryCase.contact_id,
       recovery_case_id: recoveryCase.id,
       provider: "mock",
-      idempotency_key: `message:${input.idempotencyKey}`,
+      idempotency_key: `message:${idempotencyKey}`,
       direction: "outbound",
       channel: "sms",
       status: "draft",
@@ -153,14 +159,14 @@ export class RecoveryActionService {
     });
 
     const approval = await this.repository.createApproval({
-      id: deterministicUuid("approval", input.idempotencyKey),
+      id: deterministicUuid("approval", idempotencyKey),
       organization_id: input.actor.organizationId,
       recovery_case_id: recoveryCase.id,
       message_id: message.id,
       requested_by_user_id: input.actor.userId,
       action_type: "send_follow_up",
       status: "pending",
-      idempotency_key: input.idempotencyKey,
+      idempotency_key: idempotencyKey,
     });
 
     if (recoveryCase.status !== "engaging") {
@@ -177,7 +183,7 @@ export class RecoveryActionService {
     }
 
     await this.repository.ensureRecoveryCaseEvent({
-      id: deterministicUuid("draft-event", input.idempotencyKey),
+      id: deterministicUuid("draft-event", idempotencyKey),
       organization_id: input.actor.organizationId,
       recovery_case_id: recoveryCase.id,
       event_type: "follow_up.drafted",
@@ -194,7 +200,7 @@ export class RecoveryActionService {
     });
 
     await this.repository.ensureAuditLog({
-      id: deterministicUuid("draft-audit", input.idempotencyKey),
+      id: deterministicUuid("draft-audit", idempotencyKey),
       organization_id: input.actor.organizationId,
       actor_type: "user",
       actor_user_id: input.actor.userId,

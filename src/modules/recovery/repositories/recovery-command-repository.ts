@@ -410,26 +410,49 @@ export class RecoveryCommandRepository {
     return data;
   }
 
-  async createMessage(input: TablesInsert<"messages">) {
-    const { data, error } = await this.client
+  async createMessage(
+    input: TablesInsert<"messages"> & { id: string; organization_id: string },
+  ) {
+    const { error } = await this.client
       .from("messages")
-      .insert(input)
-      .select()
-      .single();
+      .upsert(input, { onConflict: "id", ignoreDuplicates: true });
     if (error) {
-      throw databaseError("create_message", error);
+      throw databaseError("ensure_message", error);
+    }
+
+    const { data, error: readError } = await this.client
+      .from("messages")
+      .select()
+      .eq("organization_id", input.organization_id)
+      .eq("id", input.id)
+      .single();
+    if (readError) {
+      throw databaseError("read_ensured_message", readError);
     }
     return data;
   }
 
-  async createApproval(input: TablesInsert<"action_approvals">) {
-    const { data, error } = await this.client
+  async createApproval(
+    input: TablesInsert<"action_approvals"> & {
+      id: string;
+      organization_id: string;
+    },
+  ) {
+    const { error } = await this.client
       .from("action_approvals")
-      .insert(input)
-      .select()
-      .single();
+      .upsert(input, { onConflict: "id", ignoreDuplicates: true });
     if (error) {
-      throw databaseError("create_approval", error);
+      throw databaseError("ensure_approval", error);
+    }
+
+    const { data, error: readError } = await this.client
+      .from("action_approvals")
+      .select()
+      .eq("organization_id", input.organization_id)
+      .eq("id", input.id)
+      .single();
+    if (readError) {
+      throw databaseError("read_ensured_approval", readError);
     }
     return data;
   }

@@ -223,6 +223,40 @@ Production dependencies are unaffected. Keep the advisory visible and remove thi
 temporary exception only through a compatible upstream lint-toolchain update; do not
 force the patched major into `minimatch` 3.
 
+## 2026-07-27 — Isolated public marketing design layer
+
+Decision:
+
+Keep the public marketing palette and motion tokens under the `.brand-scope` boundary.
+Apply the approved League Spartan heading and Montserrat body typography across public,
+Clerk, and authenticated surfaces, using licensed Latin WOFF2 assets committed to the
+repository. Preserve the authenticated product's violet semantic tokens, control radii,
+and component composition until its UI overhaul is implemented as a separate slice.
+
+Reason:
+
+The typography direction was explicitly retained after review, while the landing-page
+checkpoint still excludes broader authenticated color, shape, and composition changes.
+Scoping those marketing tokens prevents silent operational-screen restyling, and
+`next/font/local` keeps production builds reproducible without network access.
+
+## 2026-07-27 — Server-owned follow-up draft idempotency
+
+Decision:
+
+Derive the Phase 1 follow-up draft idempotency key on the server from the Recovery Case
+ID. Do not accept the key from browser form data. The current slice permits one draft
+approval per Recovery Case. Create the deterministic message and approval records with
+insert-if-absent semantics, then read the authoritative stored rows.
+
+Reason:
+
+A random key generated during server rendering changes after a refresh and permits
+duplicate draft messages and approvals. A durable, server-owned natural key makes retries
+safe, lets partial or concurrent retries converge, and prevents the browser from choosing
+approval-record identity. A future multi-attempt drafting model must add an explicit
+attempt identity rather than restore a render-time random value.
+
 ## Open decisions
 
 Record final decisions before implementation reaches the relevant phase:

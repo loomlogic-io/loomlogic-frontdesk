@@ -1,5 +1,3 @@
-import { randomUUID } from "node:crypto";
-
 import {
   ArrowLeft,
   CalendarCheck,
@@ -364,7 +362,6 @@ export default async function RecoveryCasePage({
               </div>
               <FollowUpComposer
                 contactName={contact.first_name ?? contact.display_name}
-                idempotencyKey={`draft:${detail.recoveryCase.id}:${randomUUID()}`}
                 recipient={primaryPhone.normalized_value}
                 recoveryCaseId={detail.recoveryCase.id}
               />

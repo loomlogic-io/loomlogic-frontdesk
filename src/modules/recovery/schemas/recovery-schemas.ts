@@ -27,11 +27,12 @@ export const missedCallFixtureSchema = z
   })
   .strict();
 
+// The idempotency key is intentionally absent: it is derived on the server from
+// the Recovery Case ID by draftFollowUpIdempotencyKey, never sent by the browser.
 export const draftFollowUpSchema = z.object({
   recoveryCaseId: z.string().uuid(),
   recipient: e164Schema,
   body: z.string().trim().min(1).max(1000),
-  idempotencyKey: z.string().min(8).max(160),
 });
 
 export const approvalActionSchema = z.object({

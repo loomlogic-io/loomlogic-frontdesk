@@ -85,7 +85,6 @@ export async function draftFollowUpAction(
       recoveryCaseId: formValue(formData, "recoveryCaseId"),
       recipient: formValue(formData, "recipient"),
       body: formValue(formData, "body"),
-      idempotencyKey: formValue(formData, "idempotencyKey"),
     });
     const context = await createRecoveryRequestContext();
     assertCanManageRecovery(context.tenant.organizationRole);
@@ -98,7 +97,6 @@ export async function draftFollowUpAction(
       recoveryCaseId: parsed.recoveryCaseId,
       recipient: parsed.recipient,
       body: parsed.body,
-      idempotencyKey: parsed.idempotencyKey,
       requestId,
     });
     revalidatePath(`/app/recovery/${parsed.recoveryCaseId}`);

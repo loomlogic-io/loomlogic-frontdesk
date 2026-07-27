@@ -12,12 +12,10 @@ import { ActionFeedback } from "@/modules/recovery/components/action-feedback";
 
 export function FollowUpComposer({
   contactName,
-  idempotencyKey,
   recipient,
   recoveryCaseId,
 }: {
   contactName: string;
-  idempotencyKey: string;
   recipient: string;
   recoveryCaseId: string;
 }) {
@@ -30,7 +28,6 @@ export function FollowUpComposer({
   return (
     <form action={action} className="mt-5 space-y-4">
       <input name="recoveryCaseId" type="hidden" value={recoveryCaseId} />
-      <input name="idempotencyKey" type="hidden" value={idempotencyKey} />
       <label className="block">
         <span className="mb-1.5 block text-sm font-medium">Recipient</span>
         <input

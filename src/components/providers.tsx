@@ -10,5 +10,14 @@ const clerkTheme = {
 };
 
 export function Providers({ children }: { children: ReactNode }) {
-  return <ClerkProvider appearance={{ theme: clerkTheme }}>{children}</ClerkProvider>;
+  return (
+    <ClerkProvider
+      appearance={{
+        theme: clerkTheme,
+        variables: { fontFamily: "var(--font-brand-sans)" },
+      }}
+    >
+      {children}
+    </ClerkProvider>
+  );
 }
