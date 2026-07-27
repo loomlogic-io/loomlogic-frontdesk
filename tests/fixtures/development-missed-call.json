@@ -1,0 +1,20 @@
+{
+  "provider_event_id": "dev-event-phase1-acceptance-001",
+  "provider_call_id": "dev-call-phase1-acceptance-001",
+  "event_type": "missed_call",
+  "from_number": "+15550101423",
+  "to_number": "+15550101000",
+  "occurred_at": "2026-07-27T16:30:00.000Z",
+  "contact": {
+    "display_name": "Jordan Lee",
+    "first_name": "Jordan",
+    "last_name": "Lee"
+  },
+  "reason": "Air conditioning service request was not answered.",
+  "summary": "Synthetic customer called the demo service line to ask for an air conditioning inspection.",
+  "intent": "service_booking",
+  "urgency": "normal",
+  "estimated_value_minor": 15900,
+  "currency_code": "CAD",
+  "fixture_outcome": "success"
+}

@@ -130,8 +130,9 @@ Unique constraints should reduce duplicates within an organization without preve
 - status
 - subject
 - summary
-- assigned_user_id
+- assigned_member_id
 - last_activity_at
+- is_demo
 - created_at
 - updated_at
 
@@ -151,11 +152,14 @@ Unique constraints should reduce duplicates within an organization without preve
 - organization_id
 - conversation_id
 - contact_id
+- recovery_case_id
 - provider
 - provider_message_id
+- idempotency_key
 - direction
 - channel
 - status
+- recipient
 - body
 - sent_at
 - delivered_at
@@ -164,6 +168,10 @@ Unique constraints should reduce duplicates within an organization without preve
 - metadata
 - created_at
 - updated_at
+
+Phase 1 permits only the `mock` provider. A database trigger rejects `approved`,
+`sending`, or `sent` states without a corresponding approved action. Recipient and
+message content become immutable after approval.
 
 ## Telephony tables
 
@@ -280,11 +288,12 @@ Immutable ordered provider and normalized events.
 - contact_id
 - conversation_id
 - source_call_id
+- reference
 - category
 - reason
 - status
 - urgency
-- assigned_user_id
+- assigned_member_id
 - estimated_value_minor
 - currency_code
 - attribution_level
@@ -296,6 +305,9 @@ Immutable ordered provider and normalized events.
 - resolved_at
 - created_at
 - updated_at
+
+Phase 1 uses one unique `(organization_id, source_call_id)` to prevent duplicate Recovery
+Cases for one missed call. Every relationship uses a composite tenant foreign key.
 
 ### recovery_case_events
 
@@ -511,6 +523,30 @@ Immutable published configuration versions.
 - started_at
 - completed_at
 - created_at
+
+### action_approvals
+
+Phase 1 uses this smaller approval record for the concrete `send_follow_up` action rather
+than introducing the full assistant action model before an AI provider exists.
+
+- id
+- organization_id
+- recovery_case_id
+- message_id
+- requested_by_user_id
+- approved_by_user_id
+- action_type
+- risk_class
+- status
+- idempotency_key
+- approved_at
+- executed_at
+- failure_code
+- created_at
+- updated_at
+
+Members may request approval. Only owner, admin, or manager projections may approve, and
+database triggers enforce valid status transitions and immutable scope.
 
 ## Integration and operations tables
 

@@ -1,0 +1,898 @@
+-- Deterministic Phase 1 fixtures. Every person, phone number, message, and outcome below
+-- is synthetic demo data using the North American 555-0100 through 555-0199 fiction range.
+
+insert into public.organizations (
+  id,
+  clerk_org_id,
+  name,
+  slug,
+  time_zone,
+  locale,
+  currency_code,
+  onboarding_state
+)
+values
+  (
+    '11000000-0000-4000-8000-000000000001',
+    'org_demo_recovery',
+    'Harbourview Auto Care (Demo)',
+    'harbourview-auto-demo',
+    'America/Toronto',
+    'en-CA',
+    'CAD',
+    'complete'
+  ),
+  (
+    '22000000-0000-4000-8000-000000000002',
+    'org_demo_other',
+    'Cedar Lane Wellness (Demo)',
+    'cedar-lane-wellness-demo',
+    'America/Toronto',
+    'en-CA',
+    'CAD',
+    'complete'
+  );
+
+insert into public.users (id, clerk_user_id, primary_email, display_name)
+values
+  (
+    '33000000-0000-4000-8000-000000000003',
+    'user_demo_recovery',
+    'manager@harbourview.example.invalid',
+    'Alexis Morgan'
+  ),
+  (
+    '44000000-0000-4000-8000-000000000004',
+    'user_demo_other',
+    'manager@cedarlane.example.invalid',
+    'Émile Gagnon'
+  );
+
+insert into public.organization_members (
+  id,
+  organization_id,
+  user_id,
+  clerk_membership_id,
+  role,
+  status,
+  job_title
+)
+values
+  (
+    '55000000-0000-4000-8000-000000000005',
+    '11000000-0000-4000-8000-000000000001',
+    '33000000-0000-4000-8000-000000000003',
+    'membership_demo_recovery',
+    'manager',
+    'active',
+    'Service Manager'
+  ),
+  (
+    '66000000-0000-4000-8000-000000000006',
+    '22000000-0000-4000-8000-000000000002',
+    '44000000-0000-4000-8000-000000000004',
+    'membership_demo_other',
+    'manager',
+    'active',
+    'Studio Manager'
+  );
+
+insert into public.phone_numbers (
+  id,
+  organization_id,
+  provider,
+  provider_phone_number_id,
+  e164_number,
+  friendly_name,
+  is_demo
+)
+values
+  (
+    '77000000-0000-4000-8000-000000000007',
+    '11000000-0000-4000-8000-000000000001',
+    'development_fixture',
+    'dev-number-harbourview',
+    '+15550101000',
+    'Main service line (Demo)',
+    true
+  ),
+  (
+    '88000000-0000-4000-8000-000000000008',
+    '22000000-0000-4000-8000-000000000002',
+    'development_fixture',
+    'dev-number-cedar-lane',
+    '+15550101001',
+    'Main studio line (Demo)',
+    true
+  );
+
+insert into public.contacts (
+  id,
+  organization_id,
+  first_name,
+  last_name,
+  display_name,
+  preferred_language,
+  time_zone,
+  consent_status,
+  metadata,
+  is_demo,
+  created_at,
+  updated_at
+)
+values
+  (
+    'a1000000-0000-4000-8000-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'Maya',
+    'Chen',
+    'Maya Chen',
+    'en',
+    'America/Toronto',
+    'granted',
+    '{"demo":true,"vehicle":"2019 Subaru Outback"}',
+    true,
+    '2026-07-26T13:40:00Z',
+    '2026-07-26T13:40:00Z'
+  ),
+  (
+    'a2000000-0000-4000-8000-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'Priya',
+    'Nair',
+    'Priya Nair',
+    'en',
+    'America/Toronto',
+    'granted',
+    '{"demo":true,"vehicle":"2021 Honda CR-V"}',
+    true,
+    '2026-07-25T18:12:00Z',
+    '2026-07-25T18:12:00Z'
+  ),
+  (
+    'b1000000-0000-4000-8000-000000000001',
+    '22000000-0000-4000-8000-000000000002',
+    'Noah',
+    'Mercier',
+    'Noah Mercier',
+    'fr',
+    'America/Toronto',
+    'unknown',
+    '{"demo":true}',
+    true,
+    '2026-07-26T15:05:00Z',
+    '2026-07-26T15:05:00Z'
+  );
+
+insert into public.contact_channels (
+  id,
+  organization_id,
+  contact_id,
+  type,
+  normalized_value,
+  display_value,
+  is_primary,
+  is_verified,
+  consent_status,
+  created_at,
+  updated_at
+)
+values
+  (
+    'c1000000-0000-4000-8000-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'a1000000-0000-4000-8000-000000000001',
+    'phone',
+    '+15550101420',
+    '+1 (555) 010-1420',
+    true,
+    true,
+    'granted',
+    '2026-07-26T13:40:00Z',
+    '2026-07-26T13:40:00Z'
+  ),
+  (
+    'c2000000-0000-4000-8000-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'a2000000-0000-4000-8000-000000000002',
+    'phone',
+    '+15550101421',
+    '+1 (555) 010-1421',
+    true,
+    true,
+    'granted',
+    '2026-07-25T18:12:00Z',
+    '2026-07-25T18:12:00Z'
+  ),
+  (
+    'c3000000-0000-4000-8000-000000000003',
+    '22000000-0000-4000-8000-000000000002',
+    'b1000000-0000-4000-8000-000000000001',
+    'phone',
+    '+15550101422',
+    '+1 (555) 010-1422',
+    true,
+    true,
+    'unknown',
+    '2026-07-26T15:05:00Z',
+    '2026-07-26T15:05:00Z'
+  );
+
+insert into public.conversations (
+  id,
+  organization_id,
+  contact_id,
+  primary_channel,
+  status,
+  subject,
+  summary,
+  assigned_member_id,
+  last_activity_at,
+  is_demo,
+  created_at,
+  updated_at
+)
+values
+  (
+    'd1000000-0000-4000-8000-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'a1000000-0000-4000-8000-000000000001',
+    'phone',
+    'waiting',
+    'Brake inspection request',
+    'Missed inbound call about brake noise before a weekend trip.',
+    '55000000-0000-4000-8000-000000000005',
+    '2026-07-26T13:42:00Z',
+    true,
+    '2026-07-26T13:40:00Z',
+    '2026-07-26T13:42:00Z'
+  ),
+  (
+    'd2000000-0000-4000-8000-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'a2000000-0000-4000-8000-000000000002',
+    'sms',
+    'resolved',
+    'Seasonal service booking',
+    'Missed call recovered through an approved demo follow-up and booking confirmation.',
+    '55000000-0000-4000-8000-000000000005',
+    '2026-07-25T18:35:00Z',
+    true,
+    '2026-07-25T18:12:00Z',
+    '2026-07-25T18:35:00Z'
+  ),
+  (
+    'd3000000-0000-4000-8000-000000000003',
+    '22000000-0000-4000-8000-000000000002',
+    'b1000000-0000-4000-8000-000000000001',
+    'phone',
+    'open',
+    'New client consultation',
+    'Demo missed call awaiting review in a separate tenant.',
+    '66000000-0000-4000-8000-000000000006',
+    '2026-07-26T15:05:00Z',
+    true,
+    '2026-07-26T15:05:00Z',
+    '2026-07-26T15:05:00Z'
+  );
+
+insert into public.calls (
+  id,
+  organization_id,
+  conversation_id,
+  contact_id,
+  phone_number_id,
+  provider,
+  provider_call_id,
+  direction,
+  status,
+  from_number,
+  to_number,
+  started_at,
+  ended_at,
+  disposition,
+  routing_outcome,
+  summary,
+  intent,
+  metadata,
+  is_demo,
+  created_at,
+  updated_at
+)
+values
+  (
+    'e1000000-0000-4000-8000-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'd1000000-0000-4000-8000-000000000001',
+    'a1000000-0000-4000-8000-000000000001',
+    '77000000-0000-4000-8000-000000000007',
+    'development_fixture',
+    'dev-call-harbourview-001',
+    'inbound',
+    'missed',
+    '+15550101420',
+    '+15550101000',
+    '2026-07-26T13:40:00Z',
+    '2026-07-26T13:40:24Z',
+    'unanswered',
+    'no_answer',
+    'Customer called about a brake inspection and did not reach the desk.',
+    'service_booking',
+    '{"demo":true}',
+    true,
+    '2026-07-26T13:40:24Z',
+    '2026-07-26T13:40:24Z'
+  ),
+  (
+    'e2000000-0000-4000-8000-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'd2000000-0000-4000-8000-000000000002',
+    'a2000000-0000-4000-8000-000000000002',
+    '77000000-0000-4000-8000-000000000007',
+    'development_fixture',
+    'dev-call-harbourview-002',
+    'inbound',
+    'missed',
+    '+15550101421',
+    '+15550101000',
+    '2026-07-25T18:12:00Z',
+    '2026-07-25T18:12:19Z',
+    'unanswered',
+    'no_answer',
+    'Customer requested seasonal maintenance availability.',
+    'service_booking',
+    '{"demo":true}',
+    true,
+    '2026-07-25T18:12:19Z',
+    '2026-07-25T18:12:19Z'
+  ),
+  (
+    'e3000000-0000-4000-8000-000000000003',
+    '22000000-0000-4000-8000-000000000002',
+    'd3000000-0000-4000-8000-000000000003',
+    'b1000000-0000-4000-8000-000000000001',
+    '88000000-0000-4000-8000-000000000008',
+    'development_fixture',
+    'dev-call-cedar-lane-001',
+    'inbound',
+    'missed',
+    '+15550101422',
+    '+15550101001',
+    '2026-07-26T15:05:00Z',
+    '2026-07-26T15:05:16Z',
+    'unanswered',
+    'no_answer',
+    'Customer requested a new-client consultation.',
+    'consultation_booking',
+    '{"demo":true}',
+    true,
+    '2026-07-26T15:05:16Z',
+    '2026-07-26T15:05:16Z'
+  );
+
+insert into public.call_events (
+  id,
+  organization_id,
+  call_id,
+  provider_event_id,
+  event_type,
+  sequence,
+  occurred_at,
+  payload
+)
+values
+  (
+    '11000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'e1000000-0000-4000-8000-000000000001',
+    'dev-event-harbourview-001',
+    'missed_call',
+    1,
+    '2026-07-26T13:40:24Z',
+    '{"demo":true,"normalized":true}'
+  ),
+  (
+    '11000000-1111-4111-8111-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'e2000000-0000-4000-8000-000000000002',
+    'dev-event-harbourview-002',
+    'missed_call',
+    1,
+    '2026-07-25T18:12:19Z',
+    '{"demo":true,"normalized":true}'
+  ),
+  (
+    '22000000-2222-4222-8222-000000000001',
+    '22000000-0000-4000-8000-000000000002',
+    'e3000000-0000-4000-8000-000000000003',
+    'dev-event-cedar-lane-001',
+    'missed_call',
+    1,
+    '2026-07-26T15:05:16Z',
+    '{"demo":true,"normalized":true}'
+  );
+
+insert into public.recovery_cases (
+  id,
+  organization_id,
+  contact_id,
+  conversation_id,
+  source_call_id,
+  reference,
+  category,
+  reason,
+  status,
+  urgency,
+  assigned_member_id,
+  estimated_value_minor,
+  currency_code,
+  attribution_level,
+  next_action_type,
+  next_action_due_at,
+  resolution_type,
+  opened_at,
+  resolved_at,
+  is_demo,
+  created_at,
+  updated_at
+)
+values
+  (
+    'f1000000-0000-4000-8000-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'a1000000-0000-4000-8000-000000000001',
+    'd1000000-0000-4000-8000-000000000001',
+    'e1000000-0000-4000-8000-000000000001',
+    'RC-DEMO-A-001',
+    'missed_call',
+    'Brake inspection request was not answered.',
+    'awaiting_staff',
+    'high',
+    '55000000-0000-4000-8000-000000000005',
+    18500,
+    'CAD',
+    'estimated',
+    'draft_follow_up',
+    '2026-07-26T14:10:00Z',
+    null,
+    '2026-07-26T13:40:24Z',
+    null,
+    true,
+    '2026-07-26T13:40:24Z',
+    '2026-07-26T13:42:00Z'
+  ),
+  (
+    'f2000000-0000-4000-8000-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'a2000000-0000-4000-8000-000000000002',
+    'd2000000-0000-4000-8000-000000000002',
+    'e2000000-0000-4000-8000-000000000002',
+    'RC-DEMO-A-002',
+    'missed_call',
+    'Seasonal maintenance request was not answered.',
+    'booked',
+    'normal',
+    '55000000-0000-4000-8000-000000000005',
+    12900,
+    'CAD',
+    'confirmed',
+    null,
+    null,
+    'booked',
+    '2026-07-25T18:12:19Z',
+    '2026-07-25T18:35:00Z',
+    true,
+    '2026-07-25T18:12:19Z',
+    '2026-07-25T18:35:00Z'
+  ),
+  (
+    'f3000000-0000-4000-8000-000000000003',
+    '22000000-0000-4000-8000-000000000002',
+    'b1000000-0000-4000-8000-000000000001',
+    'd3000000-0000-4000-8000-000000000003',
+    'e3000000-0000-4000-8000-000000000003',
+    'RC-DEMO-B-001',
+    'missed_call',
+    'New-client consultation request was not answered.',
+    'new',
+    'normal',
+    '66000000-0000-4000-8000-000000000006',
+    9500,
+    'CAD',
+    'estimated',
+    'review_case',
+    '2026-07-26T15:35:00Z',
+    null,
+    '2026-07-26T15:05:16Z',
+    null,
+    true,
+    '2026-07-26T15:05:16Z',
+    '2026-07-26T15:05:16Z'
+  );
+
+insert into public.recovery_case_events (
+  id,
+  organization_id,
+  recovery_case_id,
+  event_type,
+  actor_type,
+  actor_user_id,
+  source_type,
+  source_id,
+  description,
+  metadata,
+  occurred_at
+)
+values
+  (
+    '12000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'f1000000-0000-4000-8000-000000000001',
+    'case.created',
+    'webhook',
+    null,
+    'webhook',
+    null,
+    'Missed call opened a demo Recovery Case.',
+    '{"demo":true}',
+    '2026-07-26T13:40:24Z'
+  ),
+  (
+    '12000000-1111-4111-8111-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'f1000000-0000-4000-8000-000000000001',
+    'case.assigned',
+    'system',
+    null,
+    'system',
+    null,
+    'Case assigned to the demo service manager.',
+    '{"demo":true}',
+    '2026-07-26T13:42:00Z'
+  ),
+  (
+    '12000000-1111-4111-8111-000000000003',
+    '11000000-0000-4000-8000-000000000001',
+    'f2000000-0000-4000-8000-000000000002',
+    'case.booked',
+    'user',
+    '33000000-0000-4000-8000-000000000003',
+    'user',
+    null,
+    'Demo booking confirmed after an approved mock follow-up.',
+    '{"demo":true}',
+    '2026-07-25T18:35:00Z'
+  ),
+  (
+    '22000000-3333-4333-8333-000000000001',
+    '22000000-0000-4000-8000-000000000002',
+    'f3000000-0000-4000-8000-000000000003',
+    'case.created',
+    'webhook',
+    null,
+    'webhook',
+    null,
+    'Missed call opened a demo Recovery Case.',
+    '{"demo":true}',
+    '2026-07-26T15:05:16Z'
+  );
+
+insert into public.tasks (
+  id,
+  organization_id,
+  title,
+  description,
+  status,
+  priority,
+  assigned_member_id,
+  due_at,
+  contact_id,
+  conversation_id,
+  recovery_case_id,
+  created_by_user_id,
+  created_at,
+  updated_at
+)
+values
+  (
+    '13000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'Review brake inspection request',
+    'Confirm service availability and prepare a customer-safe follow-up.',
+    'open',
+    'high',
+    '55000000-0000-4000-8000-000000000005',
+    '2026-07-26T14:10:00Z',
+    'a1000000-0000-4000-8000-000000000001',
+    'd1000000-0000-4000-8000-000000000001',
+    'f1000000-0000-4000-8000-000000000001',
+    null,
+    '2026-07-26T13:40:24Z',
+    '2026-07-26T13:40:24Z'
+  );
+
+insert into public.messages (
+  id,
+  organization_id,
+  conversation_id,
+  contact_id,
+  recovery_case_id,
+  provider,
+  provider_message_id,
+  idempotency_key,
+  direction,
+  channel,
+  status,
+  recipient,
+  body,
+  sent_at,
+  metadata,
+  created_at,
+  updated_at
+)
+values
+  (
+    '14000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'd2000000-0000-4000-8000-000000000002',
+    'a2000000-0000-4000-8000-000000000002',
+    'f2000000-0000-4000-8000-000000000002',
+    'mock',
+    null,
+    'demo-follow-up-harbourview-002',
+    'outbound',
+    'sms',
+    'draft',
+    '+15550101421',
+    'Hi Priya, this is Harbourview Auto Care. We can help with your seasonal service request. Reply to confirm the demo appointment window.',
+    null,
+    '{"demo":true,"provider_is_mock":true}',
+    '2026-07-25T18:20:00Z',
+    '2026-07-25T18:25:00Z'
+  );
+
+insert into public.action_approvals (
+  id,
+  organization_id,
+  recovery_case_id,
+  message_id,
+  requested_by_user_id,
+  approved_by_user_id,
+  action_type,
+  status,
+  idempotency_key,
+  approved_at,
+  executed_at,
+  created_at,
+  updated_at
+)
+values
+  (
+    '15000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'f2000000-0000-4000-8000-000000000002',
+    '14000000-1111-4111-8111-000000000001',
+    '33000000-0000-4000-8000-000000000003',
+    '33000000-0000-4000-8000-000000000003',
+    'send_follow_up',
+    'succeeded',
+    'demo-approval-harbourview-002',
+    '2026-07-25T18:23:00Z',
+    '2026-07-25T18:25:00Z',
+    '2026-07-25T18:20:00Z',
+    '2026-07-25T18:25:00Z'
+  );
+
+update public.messages
+set
+  provider_message_id = 'mock-msg-demo-001',
+  status = 'sent',
+  sent_at = '2026-07-25T18:25:00Z',
+  updated_at = '2026-07-25T18:25:00Z'
+where id = '14000000-1111-4111-8111-000000000001';
+
+insert into public.mock_message_attempts (
+  id,
+  organization_id,
+  message_id,
+  idempotency_key,
+  outcome,
+  provider_message_id,
+  attempted_at
+)
+values
+  (
+    '16000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    '14000000-1111-4111-8111-000000000001',
+    'demo-send-harbourview-002',
+    'succeeded',
+    'mock-msg-demo-001',
+    '2026-07-25T18:25:00Z'
+  );
+
+insert into public.revenue_attributions (
+  id,
+  organization_id,
+  recovery_case_id,
+  level,
+  amount_minor,
+  currency_code,
+  confidence,
+  evidence_type,
+  evidence_reference,
+  attributed_at
+)
+values
+  (
+    '17000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'f1000000-0000-4000-8000-000000000001',
+    'estimated',
+    18500,
+    'CAD',
+    0.6500,
+    'case_estimate',
+    'RC-DEMO-A-001',
+    '2026-07-26T13:40:24Z'
+  ),
+  (
+    '17000000-1111-4111-8111-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'f2000000-0000-4000-8000-000000000002',
+    'confirmed',
+    12900,
+    'CAD',
+    1.0000,
+    'user_confirmed_booking',
+    'RC-DEMO-A-002',
+    '2026-07-25T18:35:00Z'
+  ),
+  (
+    '27000000-2222-4222-8222-000000000001',
+    '22000000-0000-4000-8000-000000000002',
+    'f3000000-0000-4000-8000-000000000003',
+    'estimated',
+    9500,
+    'CAD',
+    0.6000,
+    'case_estimate',
+    'RC-DEMO-B-001',
+    '2026-07-26T15:05:16Z'
+  );
+
+insert into public.webhook_events (
+  id,
+  organization_id,
+  provider,
+  provider_event_id,
+  event_type,
+  signature_verified,
+  payload_hash,
+  raw_payload,
+  status,
+  attempt_count,
+  received_at,
+  processed_at,
+  created_at,
+  updated_at
+)
+values
+  (
+    '18000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'development_fixture',
+    'dev-event-harbourview-001',
+    'missed_call',
+    true,
+    repeat('a', 64),
+    '{"demo":true,"provider_event_id":"dev-event-harbourview-001"}',
+    'processed',
+    1,
+    '2026-07-26T13:40:24Z',
+    '2026-07-26T13:40:25Z',
+    '2026-07-26T13:40:24Z',
+    '2026-07-26T13:40:25Z'
+  ),
+  (
+    '18000000-1111-4111-8111-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'development_fixture',
+    'dev-event-harbourview-002',
+    'missed_call',
+    true,
+    repeat('b', 64),
+    '{"demo":true,"provider_event_id":"dev-event-harbourview-002"}',
+    'processed',
+    1,
+    '2026-07-25T18:12:19Z',
+    '2026-07-25T18:12:20Z',
+    '2026-07-25T18:12:19Z',
+    '2026-07-25T18:12:20Z'
+  );
+
+insert into public.outbox_events (
+  id,
+  organization_id,
+  aggregate_type,
+  aggregate_id,
+  event_type,
+  idempotency_key,
+  payload,
+  status,
+  attempt_count,
+  available_at,
+  processed_at,
+  created_at,
+  updated_at
+)
+values
+  (
+    '19000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'recovery_case',
+    'f1000000-0000-4000-8000-000000000001',
+    'recovery_case.created',
+    'outbox-dev-event-harbourview-001',
+    '{"demo":true}',
+    'processed',
+    1,
+    '2026-07-26T13:40:24Z',
+    '2026-07-26T13:40:25Z',
+    '2026-07-26T13:40:24Z',
+    '2026-07-26T13:40:25Z'
+  );
+
+insert into public.audit_logs (
+  id,
+  organization_id,
+  actor_type,
+  actor_user_id,
+  action,
+  target_type,
+  target_id,
+  source,
+  request_id,
+  metadata,
+  created_at
+)
+values
+  (
+    '1a000000-1111-4111-8111-000000000001',
+    '11000000-0000-4000-8000-000000000001',
+    'webhook',
+    null,
+    'recovery_case.created',
+    'recovery_case',
+    'f1000000-0000-4000-8000-000000000001',
+    'webhook',
+    'demo-request-harbourview-001',
+    '{"demo":true}',
+    '2026-07-26T13:40:24Z'
+  ),
+  (
+    '1a000000-1111-4111-8111-000000000002',
+    '11000000-0000-4000-8000-000000000001',
+    'user',
+    '33000000-0000-4000-8000-000000000003',
+    'follow_up.approved_and_sent',
+    'message',
+    '14000000-1111-4111-8111-000000000001',
+    'user',
+    'demo-request-harbourview-002',
+    '{"demo":true,"provider":"mock"}',
+    '2026-07-25T18:25:00Z'
+  ),
+  (
+    '1a000000-1111-4111-8111-000000000003',
+    '11000000-0000-4000-8000-000000000001',
+    'user',
+    '33000000-0000-4000-8000-000000000003',
+    'recovery_case.booked',
+    'recovery_case',
+    'f2000000-0000-4000-8000-000000000002',
+    'user',
+    'demo-request-harbourview-003',
+    '{"demo":true,"amount_minor":12900,"currency_code":"CAD"}',
+    '2026-07-25T18:35:00Z'
+  );

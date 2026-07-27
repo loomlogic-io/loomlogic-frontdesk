@@ -1,0 +1,14 @@
+# Authoritative long-form documentation is maintained manually.
+AGENTS.md
+README.md
+docs/**/*.md
+prompts/**/*.md
+
+# Generated and runtime output
+.next/
+coverage/
+node_modules/
+playwright-report/
+test-results/
+src/types/database.generated.ts
+supabase/.temp/
